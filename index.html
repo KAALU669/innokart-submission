@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>InnoKart — Open Every Invention | Student & Maker Hardware Marketplace</title>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+
+  <meta name="description"
+    content="A platform where student inventors and hobbyists show the gadgets they built and sell them. Every device features an open bill of materials, circuit architecture, and bench test passport.">
+  <meta name="keywords"
+    content="student inventions, open hardware, DIY gadgets, solar charger, HEPA air purifier, recycled power bank, student makers, InnoKart">
+  <meta name="author" content="InnoKart">
+  <meta name="theme-color" content="#0a0705">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="InnoKart — Open Every Invention">
+  <meta property="og:description"
+    content="Inventions built by students. Yours to own. Explore real hardware engineering, parts provenance, and verified bench passports.">
+  <meta property="og:type" content="website">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div id="intro" class="intro-overlay" aria-hidden="true">
+    <canvas id="intro-canvas" aria-hidden="true"></canvas>
+    <button class="intro-skip" type="button">Skip Intro &gt;</button>
+    <div class="intro-brand" aria-hidden="true">
+      <svg class="intro-mark" viewBox="0 0 64 64" role="presentation">
+        <path d="M17 23h30l-3 32H20l-3-32Z M23 23a9 9 0 0 1 18 0" />
+        <path d="M32 29a7 7 0 0 0-4 12c1 1 2 2 2 4h4c0-2 1-3 2-4a7 7 0 0 0-4-12Z M30 49h4 M31 52h2" />
+      </svg>
+      <div class="intro-wordmark"><span class="intro-wordmark-cream">Inno</span><span class="intro-wordmark-orange">Kart</span></div>
+      <div class="intro-tagline">INNOVATION MEETS OPPORTUNITY</div>
+    </div>
+    <div class="intro-sweep" aria-hidden="true"></div>
+  </div>
+
+  <!-- Fixed Navigation -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-link" aria-label="InnoKart Home">
+        <div class="brand-title-wrap">
+          <span class="brand-logo">Inno<span>Kart</span></span>
+        </div>
+        <span class="brand-tagline">Open every invention.</span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a href="#inventions" class="nav-link">Inventions</a>
+        <a href="#inside-tech" class="nav-link">Inside Tech</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#numbers" class="nav-link">Numbers</a>
+        <a href="#calculator" class="nav-link">Calculator</a>
+        <a href="#makers" class="nav-link">Makers</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#makers" class="nav-link mobile-submit-link">Submit Gadget</a>
+        <button class="nav-link mobile-account-link" id="mobile-account-open" type="button">Log in / Sign up</button>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary btn-sm account-open-btn" id="account-open-btn" type="button">Log in</button>
+        <button class="btn btn-icon cart-toggle-btn" id="cart-toggle-btn" aria-label="Shopping Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <a href="#makers" class="btn btn-primary btn-sm">Submit Gadget</a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="account-modal-backdrop" id="account-modal" role="dialog" aria-modal="true"
+    aria-labelledby="account-modal-title" aria-hidden="true" hidden>
+    <section class="account-modal">
+      <button class="modal-close-btn account-modal-close" id="account-modal-close" type="button" aria-label="Close account dialog">&times;</button>
+      <span class="mono-label">Local demo account</span>
+      <h2 id="account-modal-title">Welcome to InnoKart</h2>
+      <p class="account-demo-note">This offline demo stores account data in this browser only. Do not use a real password.</p>
+      <div class="account-mode-tabs" role="tablist" aria-label="Account actions">
+        <button type="button" class="account-mode-btn is-active" data-auth-mode="login" role="tab" aria-selected="true">Log in</button>
+        <button type="button" class="account-mode-btn" data-auth-mode="signup" role="tab" aria-selected="false">Sign up</button>
+      </div>
+      <form id="login-form" class="account-form" novalidate>
+        <label>Email
+          <input name="email" type="email" autocomplete="email" maxlength="254" required>
+          <span class="account-field-error" data-error-for="login-email" aria-live="polite"></span>
+        </label>
+        <label>Password
+          <span class="password-control">
+            <input name="password" type="password" autocomplete="current-password" minlength="8" required>
+            <button type="button" class="password-visibility-toggle" data-password-toggle aria-label="Show password">Show</button>
+          </span>
+          <span class="account-field-error" data-error-for="login-password" aria-live="polite"></span>
+        </label>
+        <p class="account-form-error" id="login-error" role="alert" hidden></p>
+        <div class="account-form-actions">
+          <button class="btn btn-primary" type="submit">Log in</button>
+          <button class="btn btn-secondary" id="demo-login-btn" type="button">Demo login</button>
+        </div>
+      </form>
+      <form id="signup-form" class="account-form" novalidate hidden>
+        <label>Name
+          <input name="name" type="text" autocomplete="name" maxlength="100" required>
+          <span class="account-field-error" data-error-for="signup-name" aria-live="polite"></span>
+        </label>
+        <label>Email
+          <input name="email" type="email" autocomplete="email" maxlength="254" required>
+          <span class="account-field-error" data-error-for="signup-email" aria-live="polite"></span>
+        </label>
+        <label>Password (at least 8 characters)
+          <span class="password-control">
+            <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="password-visibility-toggle" data-password-toggle aria-label="Show password">Show</button>
+          </span>
+          <span class="account-field-error" data-error-for="signup-password" aria-live="polite"></span>
+        </label>
+        <p class="account-form-error" id="signup-error" role="alert" hidden></p>
+        <div class="account-form-actions">
+          <button class="btn btn-primary" type="submit">Create account</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-frame">
+        <canvas id="hero-canvas" aria-label="Interactive 3D SunSlate v2 Solar Charger"></canvas>
+
+        <!-- WebGL Failure Fallback (hidden by default) -->
+        <div class="hero-fallback is-hidden" id="hero-fallback" aria-hidden="true">
+          <div class="fallback-card">
+            <span class="mono-label">SunSlate v2 Hardware Architecture</span>
+            <h3 class="fallback-title">Layer-by-Layer Components</h3>
+            <ol class="fallback-parts-list" id="fallback-parts-list">
+              <li class="fallback-part-item"><strong>Front glass with solar cells</strong><span>Captures ambient
+                  sunlight and protects fragile silicon wafers.</span></li>
+              <li class="fallback-part-item"><strong>Copper frame</strong><span>Provides structural rigidity while
+                  acting as a passive heat spreader.</span></li>
+              <li class="fallback-part-item"><strong>Battery pack</strong><span>Stores buffer energy to ensure stable
+                  current during intermittent cloud cover.</span></li>
+              <li class="fallback-part-item"><strong>Controller board</strong><span>Regulates charge voltages using an
+                  open-source buck converter circuit.</span></li>
+              <li class="fallback-part-item"><strong>Bamboo back panel</strong><span>Insulates internal electronics and
+                  offers lightweight shock resistance.</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="container hero-layout">
+          <div class="hero-content">
+            <div class="hero-pill">
+              <span class="hero-pill-dot"></span>
+              <span class="mono-label">Student Hardware Marketplace</span>
+            </div>
+
+            <h1 class="hero-headline"><span class="hero-headline-line">Inventions built by students.</span><span class="hero-headline-line"><em>Yours to own.</em></span></h1>
+
+            <p class="hero-paragraph">
+              Independent student inventors and hobbyists build working gadgets from circuit board to enclosure. Every
+              listing documents the engineering behind the device, including verified bench tests and salvaged component
+              history.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#inventions" class="btn btn-primary">Explore Inventions</a>
+              <a href="#how-it-works" class="btn btn-secondary">How An Invention Gets Here</a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="hero-stat-item">
+                <div class="hero-stat-value" id="hero-stat-count">6</div>
+                <div class="hero-stat-label">Original Working Prototypes</div>
+              </div>
+              <div class="hero-stat-item">
+                <div class="hero-stat-value">100<span>%</span></div>
+                <div class="hero-stat-label">Bench Tested & Serialized</div>
+              </div>
+              <div class="hero-stat-item">
+                <div class="hero-stat-value" id="hero-stat-recycled">60<span>%</span></div>
+                <div class="hero-stat-label">Avg Salvaged & Recycled Parts</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero 3D Stage Area -->
+          <div class="hero-3d-stage" aria-label="SunSlate v2 3D Hardware Architecture">
+            <div class="hero-3d-caption">
+              <span class="mono-label">SunSlate v2 &bull; 360&deg; view</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scrolling Ticker of Categories -->
+    <aside class="ticker-wrap" aria-label="Technology Categories">
+      <div class="ticker-track">
+        <span class="ticker-item">Solar Tech <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Clean Air Systems <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Agritech Sensors <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Energy Recovery <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Acoustic Audio <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Mechanical Kinetic <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Salvaged Batteries <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Open Hardware Schematics <span class="ticker-separator">/</span></span>
+        <!-- Repeated items for infinite continuous scroll -->
+        <span class="ticker-item">Solar Tech <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Clean Air Systems <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Agritech Sensors <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Energy Recovery <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Acoustic Audio <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Mechanical Kinetic <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Salvaged Batteries <span class="ticker-separator">/</span></span>
+        <span class="ticker-item">Open Hardware Schematics <span class="ticker-separator">/</span></span>
+      </div>
+    </aside>
+
+    <!-- Inventions Grid Section -->
+    <section class="inventions-section" id="inventions">
+      <div class="container">
+        <header class="section-head">
+          <span class="mono-label">Available Listings</span>
+          <h2 class="section-headline">Explore Student Inventions</h2>
+          <p class="section-subhead">
+            Each device is hand-built in limited batches. Inspect the mechanical parts, see the measured test passport,
+            and support young innovators directly.
+          </p>
+        </header>
+
+        <!-- Controls row: Search & Sort -->
+        <div class="inventions-toolbar">
+          <div class="search-box-wrap">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="inventions-search" class="search-input"
+              placeholder="Search inventions, makers, components, problems..." aria-label="Search inventions">
+            <button class="search-clear-btn is-hidden" id="search-clear-btn" aria-label="Clear search">&times;</button>
+          </div>
+
+          <div class="sort-box-wrap">
+            <label for="inventions-sort" class="sort-label">Sort by:</label>
+            <select id="inventions-sort" class="sort-select" aria-label="Sort inventions">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="recycled-desc">Most Recycled %</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <nav class="filter-bar" id="category-filter" aria-label="Filter by category">
+          <button class="filter-btn active" data-category="all">All Inventions (6)</button>
+          <button class="filter-btn" data-category="Solar Tech">Solar Tech</button>
+          <button class="filter-btn" data-category="Agritech">Agritech</button>
+          <button class="filter-btn" data-category="Clean Air">Clean Air</button>
+          <button class="filter-btn" data-category="Energy Recovery">Energy Recovery</button>
+          <button class="filter-btn" data-category="Acoustic Audio">Acoustic Audio</button>
+          <button class="filter-btn" data-category="Mechanical Kinetic">Mechanical Kinetic</button>
+        </nav>
+
+        <!-- Dynamic Inventions Grid -->
+        <div class="inventions-grid" id="inventions-grid" aria-live="polite">
+          <!-- Populated by js/main.js from js/data.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Inside Every Invention Section (3 lines) -->
+    <section class="inside-tech-section" id="inside-tech">
+      <div class="container inside-tech-wrap">
+        <div class="inside-tech-content">
+          <span class="mono-label">Architecture & Provenance</span>
+          <h2 class="section-headline">Inside Every Invention</h2>
+          <p class="section-subhead">
+            We reject the black-box consumer electronics model. On InnoKart, you learn exactly what keeps a machine
+            running before you spend a single rupee.
+          </p>
+
+          <div class="inside-tech-points">
+            <article class="inside-point-card">
+              <span class="point-index">01</span>
+              <div class="point-text">
+                <strong>Component provenance and bill of materials</strong>
+                <p>Every gadget documents individual part sources, salvage histories from recycled gear, and true
+                  production costs.</p>
+              </div>
+            </article>
+
+            <article class="inside-point-card">
+              <span class="point-index">02</span>
+              <div class="point-text">
+                <strong>Interactive 3D teardown and layer stacks</strong>
+                <p>Explore an exploded view of every mechanical and circuit layer, from front shielding to internal
+                  power regulation.</p>
+              </div>
+            </article>
+
+            <article class="inside-point-card">
+              <span class="point-index">03</span>
+              <div class="point-text">
+                <strong>Serialized bench passport with measured data</strong>
+                <p>Each unit carries a unique serial number stamped with real empirical lab results: wattage, thermal
+                  drift, and cycle tests.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="passport-preview-card" aria-label="Sample Build Passport Preview">
+          <div class="passport-preview-header">
+            <div>
+              <span class="mono-subtle">Quality Verification</span>
+              <div class="passport-preview-title">Physical Build Passport</div>
+            </div>
+            <span class="passport-preview-serial">INK-SS2-0031</span>
+          </div>
+
+          <div class="passport-test-list">
+            <div class="passport-test-row">
+              <span class="test-row-label">Output under full sun</span>
+              <span class="test-row-val">5.1 W / 1.02 A <span class="test-pass-badge">Pass</span></span>
+            </div>
+            <div class="passport-test-row">
+              <span class="test-row-label">Thermal dissipation at 45°C</span>
+              <span class="test-row-val">Delta T &lt; 8.4°C <span class="test-pass-badge">Pass</span></span>
+            </div>
+            <div class="passport-test-row">
+              <span class="test-row-label">Drop test from 1.2 m</span>
+              <span class="test-row-val">Zero delamination <span class="test-pass-badge">Pass</span></span>
+            </div>
+          </div>
+
+          <div class="showcase-footer">
+            <span>Assembled: <strong>2026-09-14</strong></span>
+            <span>Inspector: <strong>Bench Lab B4</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How An Invention Gets Here (4 steps: Build, Test, List, Ship) -->
+    <section class="how-it-works-section" id="how-it-works">
+      <div class="container">
+        <header class="section-head">
+          <span class="mono-label">From Bench to Desk</span>
+          <h2 class="section-headline">How An Invention Gets Here</h2>
+          <p class="section-subhead">
+            A straightforward process ensuring safety, honest performance documentation, and direct compensation for
+            young makers.
+          </p>
+        </header>
+
+        <div class="steps-strip">
+          <div class="step-card">
+            <span class="step-card-num">01 // BUILD</span>
+            <h3 class="step-card-title">Build</h3>
+            <p class="step-card-desc">
+              Students and hobbyists engineer functional prototypes in home workshops and university makerspaces,
+              repurposing salvageable high-grade electronics.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <span class="step-card-num">02 // TEST</span>
+            <h3 class="step-card-title">Test</h3>
+            <p class="step-card-desc">
+              Every unit undergoes electrical load balancing, thermal stress testing, and drop resistance tests to
+              generate verified empirical telemetry.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <span class="step-card-num">03 // LIST</span>
+            <h3 class="step-card-title">List</h3>
+            <p class="step-card-desc">
+              Makers publish schematics, layered component breakdowns, and build passports with transparent pricing
+              directly on InnoKart.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <span class="step-card-num">04 // SHIP</span>
+            <h3 class="step-card-title">Ship</h3>
+            <p class="step-card-desc">
+              When you purchase, the gadget is securely packaged with its original build passport, spare screws, and
+              handwritten assembly notes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Innovation in Numbers Row (Calculated from data.js) -->
+    <section class="numbers-section" id="numbers">
+      <div class="container">
+        <div class="numbers-row">
+          <div class="number-card">
+            <span class="number-label">Live Catalog</span>
+            <div class="number-stat" id="stat-total-inventions">0</div>
+            <p class="number-desc">Hand-built inventions currently listed by student creators</p>
+          </div>
+
+          <div class="number-card">
+            <span class="number-label">Average Build Effort</span>
+            <div class="number-stat" id="stat-avg-build-days">0 <span>Days</span></div>
+            <p class="number-desc">Prototyping, soldering, and bench calibration time per gadget</p>
+          </div>
+
+          <div class="number-card">
+            <span class="number-label">Resource Circularity</span>
+            <div class="number-stat" id="stat-avg-recycled">0<span>%</span></div>
+            <p class="number-desc">Average recycled and salvaged components across all catalog units</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Calculator Section for SunSlate v2 & ReCell 10K -->
+    <section class="calculator-section" id="calculator">
+      <div class="container">
+        <header class="section-head">
+          <span class="mono-label">Interactive Energy & Savings Estimator</span>
+          <h2 class="section-headline">Impact Calculator</h2>
+          <p class="section-subhead">
+            Calculate your estimated daily phone battery charges and monthly rupees saved by harnessing solar generation
+            or salvaged lithium cells.
+          </p>
+        </header>
+
+        <div class="calculator-card">
+          <div class="calc-device-selector" role="tablist" aria-label="Select device for impact calculation">
+            <button class="calc-device-btn active" data-device="sunslate-v2" role="tab" aria-selected="true">
+              SunSlate v2 (Solar)
+            </button>
+            <button class="calc-device-btn" data-device="recell-10k" role="tab" aria-selected="false">
+              ReCell 10K (Salvaged Battery)
+            </button>
+          </div>
+
+          <div class="calc-body-grid">
+            <!-- Controls Column -->
+            <div class="calc-controls-col">
+              <div class="calc-slider-group">
+                <div class="calc-slider-header">
+                  <label for="calc-sunlight" class="calc-slider-label">Hours of Sunlight per Day</label>
+                  <span class="calc-slider-val" id="calc-sunlight-val">5 hrs</span>
+                </div>
+                <input type="range" class="calc-slider" id="calc-sunlight" min="1" max="10" step="0.5" value="5"
+                  aria-label="Hours of sunlight per day">
+              </div>
+
+              <div class="calc-slider-group">
+                <div class="calc-slider-header">
+                  <label for="calc-phones" class="calc-slider-label">Phones Charged per Day</label>
+                  <span class="calc-slider-val" id="calc-phones-val">2 phones</span>
+                </div>
+                <input type="range" class="calc-slider" id="calc-phones" min="1" max="10" step="1" value="2"
+                  aria-label="Phones charged per day">
+              </div>
+            </div>
+
+            <!-- Results Column -->
+            <div class="calc-results-col">
+              <div class="calc-metrics-row">
+                <div class="calc-metric-box">
+                  <div class="calc-metric-header">
+                    <span class="calc-metric-label">Charges / Day</span>
+                    <span class="estimate-badge">Estimate</span>
+                  </div>
+                  <div class="calc-metric-num" id="calc-result-charges">0.0</div>
+                  <span class="calc-metric-unit">phone battery charges</span>
+                </div>
+
+                <div class="calc-metric-box">
+                  <div class="calc-metric-header">
+                    <span class="calc-metric-label">Rupees Saved</span>
+                    <span class="estimate-badge">Estimate</span>
+                  </div>
+                  <div class="calc-metric-num" id="calc-result-savings">₹0</div>
+                  <span class="calc-metric-unit">rupees saved per month</span>
+                </div>
+              </div>
+
+              <div class="calc-formula-block">
+                <span class="calc-formula-title">Calculation Formula</span>
+                <p class="calc-formula-text" id="calc-formula-text">Calculating...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action for Makers -->
+    <section class="cta-section" id="makers">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-content">
+            <span class="mono-label">For Student Creators & Hobbyists</span>
+            <h2 class="cta-headline">Built something useful on your workbench?</h2>
+            <p class="cta-desc">
+              Do not let your inventions sit in a drawer after science fairs or semester finals. List your hardware on
+              InnoKart, maintain full rights to your intellectual property, and put working tools into the hands of real
+              people.
+            </p>
+            <form class="maker-form" id="maker-submission-form" novalidate>
+              <div class="maker-form-grid">
+                <div class="maker-field">
+                  <label for="maker-name">Your name</label>
+                  <input id="maker-name" name="name" type="text" autocomplete="name" maxlength="100" required>
+                </div>
+                <div class="maker-field">
+                  <label for="maker-email">Email</label>
+                  <input id="maker-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+                </div>
+                <div class="maker-field">
+                  <label for="maker-phone">Phone number</label>
+                  <input id="maker-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel"
+                    pattern="[0-9]{10}" maxlength="10" required>
+                </div>
+                <div class="maker-field">
+                  <label for="maker-pincode">Pincode</label>
+                  <input id="maker-pincode" name="pincode" inputmode="numeric" autocomplete="postal-code"
+                    pattern="[0-9]{6}" maxlength="6" required>
+                </div>
+                <div class="maker-field">
+                  <label for="maker-invention">Invention name</label>
+                  <input id="maker-invention" name="inventionName" type="text" maxlength="100" required>
+                </div>
+                <div class="maker-field">
+                  <label for="maker-category">Category</label>
+                  <select id="maker-category" name="category" required>
+                    <option value="">Choose a category</option>
+                    <option>Solar Tech</option>
+                    <option>Agritech</option>
+                    <option>Clean Air</option>
+                    <option>Energy Recovery</option>
+                    <option>Acoustic Audio</option>
+                    <option>Mechanical Kinetic</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="maker-field maker-field-full">
+                  <label for="maker-problem">Problem it solves <span>(up to 200 characters)</span></label>
+                  <textarea id="maker-problem" name="problem" maxlength="200" required></textarea>
+                  <span class="maker-counter" id="maker-problem-counter" aria-live="polite">0 / 200</span>
+                </div>
+                <div class="maker-field maker-field-full">
+                  <label for="maker-how-it-works">How it works <span>(up to 300 characters)</span></label>
+                  <textarea id="maker-how-it-works" name="howItWorks" maxlength="300" required></textarea>
+                </div>
+                <div class="maker-field maker-field-full">
+                  <label for="maker-components">Components used</label>
+                  <textarea id="maker-components" name="components" maxlength="500" required></textarea>
+                </div>
+                <div class="maker-field maker-field-full">
+                  <label for="maker-video">Build video link <span>(optional)</span></label>
+                  <input id="maker-video" name="videoUrl" type="url" maxlength="2048"
+                    placeholder="https://">
+                </div>
+              </div>
+              <div class="maker-form-actions">
+                <button class="btn btn-primary" type="submit">Submit Your Invention</button>
+                <span class="cta-note">Zero listing fees for verified student inventors</span>
+              </div>
+              <p class="maker-form-message" id="maker-form-message" role="status" aria-live="polite"></p>
+            </form>
+            <section class="maker-submissions" aria-labelledby="maker-submissions-title">
+              <h3 id="maker-submissions-title">Your submissions</h3>
+              <div class="maker-submissions-list" id="maker-submissions-list" aria-live="polite"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-title-wrap">
+            <span class="brand-logo">Inno<span>Kart</span></span>
+          </div>
+          <p class="footer-summary">
+            A technology marketplace connecting student inventors with hardware enthusiasts. Open architecture, honest
+            component passports, and repairable design.
+          </p>
+          <span class="brand-tagline">Open every invention.</span>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Explore</div>
+          <div class="footer-links">
+            <a href="#inventions" class="footer-link">All Inventions</a>
+            <a href="#inside-tech" class="footer-link">Inside Tech</a>
+            <a href="#how-it-works" class="footer-link">Build & Test Process</a>
+            <a href="#numbers" class="footer-link">Innovation Metrics</a>
+            <a href="#calculator" class="footer-link">Impact Calculator</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Categories</div>
+          <div class="footer-links">
+            <a href="#inventions" class="footer-link" data-category="Solar Tech">Solar Harvesters</a>
+            <a href="#inventions" class="footer-link" data-category="Agritech">Agritech Telemetry</a>
+            <a href="#inventions" class="footer-link" data-category="Clean Air">Laminar Air Purifiers</a>
+            <a href="#inventions" class="footer-link" data-category="Acoustic Audio">Acoustic Resonance</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title">Contact & Community</div>
+          <div class="footer-links">
+            <a href="mailto:makers@innokart.in" class="footer-link">makers@innokart.in</a>
+            <span class="footer-link">Bengaluru / Bhopal / Pune</span>
+            <a href="#makers" class="footer-link">Maker Submissions</a>
+            <span class="footer-link">Open Hardware Initiative</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 InnoKart. All rights reserved. Built with semantic HTML, CSS, and vanilla JavaScript.</div>
+        <div>Tagline: <strong>Open every invention.</strong></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Technology Teardown & Passport Modal Dialog -->
+  <!-- Invention Detail Panel Modal Dialog -->
+  <div class="modal-backdrop" id="tech-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="mono-label" id="modal-category">Category</span>
+          <h3 class="modal-title" id="modal-title">Invention Name</h3>
+          <p class="modal-subtitle" id="modal-maker">Built by Maker</p>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab-btn active" data-tab="tab-overview" role="tab" aria-selected="true">Overview</button>
+        <button class="modal-tab-btn" data-tab="tab-how" role="tab" aria-selected="false">How It Works</button>
+        <button class="modal-tab-btn" data-tab="tab-build" role="tab" aria-selected="false">Build</button>
+        <button class="modal-tab-btn" data-tab="tab-specs" role="tab" aria-selected="false">Specs</button>
+        <button class="modal-tab-btn" data-tab="tab-inside" role="tab" aria-selected="false">Inside</button>
+        <button class="modal-tab-btn" data-tab="tab-passport" role="tab" aria-selected="false">Passport</button>
+      </div>
+
+      <div class="modal-body" id="modal-body-container">
+        <!-- Tab 1: Overview -->
+        <div class="modal-tab-panel active" id="tab-overview" role="tabpanel">
+          <div id="overview-content"></div>
+        </div>
+
+        <!-- Tab 2: How It Works -->
+        <div class="modal-tab-panel" id="tab-how" role="tabpanel">
+          <div id="how-content"></div>
+        </div>
+
+        <!-- Tab 3: Build -->
+        <div class="modal-tab-panel" id="tab-build" role="tabpanel">
+          <div id="build-content"></div>
+        </div>
+
+        <!-- Tab 4: Specs -->
+        <div class="modal-tab-panel" id="tab-specs" role="tabpanel">
+          <div id="specs-content"></div>
+        </div>
+
+        <!-- Tab 5: Inside (Three.js Scene + Explode Slider + Part Card) -->
+        <div class="modal-tab-panel" id="tab-inside" role="tabpanel">
+          <div id="inside-content"></div>
+        </div>
+
+        <!-- Tab 6: Passport (Table + Canvas QR Pattern) -->
+        <div class="modal-tab-panel" id="tab-passport" role="tabpanel">
+          <div id="passport-content"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer-wrap">
+        <div class="modal-price-wrap">
+          <span class="card-price" id="modal-price-val">₹0</span>
+          <span class="stock-badge" id="modal-stock-badge">In Stock</span>
+        </div>
+        <div class="modal-footer-actions">
+          <div class="qty-control" aria-label="Quantity selector">
+            <button class="qty-btn" id="modal-qty-minus" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-value" id="modal-qty-val">1</span>
+            <button class="qty-btn" id="modal-qty-plus" aria-label="Increase quantity">&plus;</button>
+          </div>
+          <button class="btn btn-primary" id="modal-add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer Overlay & Drawer -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title"
+    aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-title-wrap">
+        <h3 id="cart-drawer-title">Shopping Cart</h3>
+        <span class="cart-drawer-count" id="cart-drawer-count">0 items</span>
+      </div>
+      <button class="drawer-close-btn" id="cart-drawer-close" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="drawer-items-list" id="cart-drawer-body">
+      <!-- Injected with createElement -->
+    </div>
+    <div class="drawer-footer" id="cart-drawer-footer">
+      <div class="drawer-summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-val">₹0</span>
+      </div>
+      <div class="drawer-summary-row">
+        <span>Shipping</span>
+        <span class="free-shipping-tag">Free</span>
+      </div>
+      <div class="drawer-summary-row total-row">
+        <span>Total</span>
+        <span id="cart-total-val">₹0</span>
+      </div>
+      <button class="btn btn-primary btn-checkout" id="cart-checkout-btn">Proceed to Checkout</button>
+      <button class="btn btn-secondary btn-sm" id="my-orders-btn">My orders</button>
+    </div>
+  </aside>
+
+  <section class="orders-panel" id="checkout-panel" role="dialog" aria-modal="true"
+    aria-labelledby="checkout-title" aria-hidden="true">
+    <div class="orders-panel-header">
+      <div>
+        <span class="mono-label">Secure demo checkout</span>
+        <h2 id="checkout-title">Complete your order</h2>
+      </div>
+      <button class="drawer-close-btn orders-close-btn" type="button" data-orders-close
+        aria-label="Close checkout">&times;</button>
+    </div>
+    <div class="orders-panel-content" id="checkout-content">
+      <div class="checkout-progress" aria-label="Checkout progress">
+        <div class="checkout-progress-track"><span id="checkout-progress-fill"></span></div>
+        <ol class="checkout-steps">
+          <li class="active" data-checkout-step="1">Address</li>
+          <li data-checkout-step="2">Payment</li>
+          <li data-checkout-step="3">Review</li>
+        </ol>
+      </div>
+      <form id="checkout-form" novalidate>
+        <div class="checkout-step-panel active" data-step-panel="1">
+          <h3>Delivery address</h3>
+          <div class="checkout-address-grid">
+            <label class="checkout-field">Full name
+              <input name="name" autocomplete="name" required maxlength="100">
+            </label>
+            <label class="checkout-field">Phone number
+              <input name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" required>
+            </label>
+            <label class="checkout-field">Email
+              <input name="email" type="email" autocomplete="email" maxlength="254" required>
+            </label>
+            <label class="checkout-field">Pincode
+              <input name="pincode" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{6}" maxlength="6" required>
+            </label>
+            <label class="checkout-field">City
+              <input name="city" autocomplete="address-level2" required maxlength="80">
+            </label>
+            <label class="checkout-field checkout-field-wide">Address
+              <textarea name="address" autocomplete="street-address" rows="3" required maxlength="240"></textarea>
+            </label>
+          </div>
+        </div>
+        <div class="checkout-step-panel" data-step-panel="2" hidden>
+          <h3>Choose payment method</h3>
+          <p class="demo-payment-note">Demo payment, no real money moves</p>
+          <div class="payment-options">
+            <label><input type="radio" name="payment" value="UPI" required><span>UPI</span></label>
+            <label><input type="radio" name="payment" value="Card"><span>Card</span></label>
+            <label><input type="radio" name="payment" value="Cash on delivery"><span>Cash on delivery</span></label>
+          </div>
+        </div>
+        <div class="checkout-step-panel" data-step-panel="3" hidden>
+          <h3>Review your order</h3>
+          <div id="checkout-review"></div>
+        </div>
+        <p class="checkout-error" id="checkout-error" role="alert" hidden></p>
+        <div class="checkout-actions">
+          <button class="btn btn-secondary" id="checkout-back" type="button" hidden>Back</button>
+          <button class="btn btn-primary" id="checkout-next" type="button">Continue to payment</button>
+          <button class="btn btn-primary" id="checkout-place-order" type="submit" hidden>Place demo order</button>
+        </div>
+      </form>
+    </div>
+    <div class="order-confirmation" id="order-confirmation" hidden>
+      <div class="order-checkmark" aria-hidden="true"><span></span></div>
+      <p class="mono-label">Order placed</p>
+      <h3>Thank you for supporting student hardware.</h3>
+      <p>Your demo order ID is <strong id="confirmation-order-id"></strong></p>
+      <button class="btn btn-primary" id="confirmation-track-order" type="button">Track this order</button>
+      <button class="btn btn-secondary" type="button" data-orders-close>Continue browsing</button>
+    </div>
+  </section>
+
+  <section class="orders-panel" id="my-orders-panel" role="dialog" aria-modal="true"
+    aria-labelledby="my-orders-title" aria-hidden="true">
+    <div class="orders-panel-header">
+      <div>
+        <span class="mono-label">Order tracking</span>
+        <h2 id="my-orders-title">My orders</h2>
+      </div>
+      <button class="drawer-close-btn orders-close-btn" type="button" data-orders-close
+        aria-label="Close my orders">&times;</button>
+    </div>
+    <div class="orders-panel-content">
+      <form class="order-track-form" id="order-track-form">
+        <label for="order-track-id">Track an order by ID</label>
+        <div>
+          <input id="order-track-id" name="orderId" placeholder="INK-48213" autocomplete="off" required>
+          <button class="btn btn-primary btn-sm" type="submit">Track</button>
+        </div>
+      </form>
+      <p class="orders-message" id="orders-message" role="status" hidden></p>
+      <div class="order-tracking-result" id="order-tracking-result" hidden></div>
+      <h3 class="orders-list-heading">Recent orders</h3>
+      <div class="orders-list" id="orders-list"></div>
+    </div>
+  </section>
+
+  <!-- Side-by-Side Compare Modal Dialog -->
+  <div class="modal-backdrop" id="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title"
+    aria-hidden="true">
+    <div class="modal-dialog compare-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="mono-label">Side-by-Side Analysis</span>
+          <h3 class="modal-title" id="compare-modal-title">Compare Inventions</h3>
+          <p class="modal-subtitle">Evaluating specifications, provenance, and pricing</p>
+        </div>
+        <button class="modal-close-btn" id="compare-modal-close-btn"
+          aria-label="Close comparison dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="compare-table-wrap" id="compare-table-container">
+          <!-- Populated by js/innovation.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Compare Bar -->
+  <aside class="compare-bar" id="compare-bar" aria-label="Compare inventions floating bar" aria-hidden="true">
+    <div class="container compare-bar-container">
+      <div class="compare-bar-info">
+        <span class="compare-bar-badge" id="compare-bar-count">0 / 3</span>
+        <span class="compare-bar-label">Inventions Selected</span>
+        <div class="compare-thumbnails" id="compare-thumbnails">
+          <!-- Dynamic compare chips -->
+        </div>
+      </div>
+      <div class="compare-bar-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-compare-clear">Clear</button>
+        <button class="btn btn-primary btn-sm" id="btn-compare-open">Compare (0)</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Toast Notification element -->
+  <div class="toast-notice" id="toast-notice" role="status" aria-live="polite">
+    <span class="toast-msg" id="toast-msg">Item added</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="lib/three.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/intro.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/innovation.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+
+</html>
